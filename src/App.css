@@ -2,3 +2,8 @@
   max-width: 1080px;
   margin: 20px auto;
 }
+.location {
+  position: absolute;
+  top: 3%;
+  left:86%;
+}

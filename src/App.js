@@ -4,6 +4,7 @@ import CurrentWeather from "./components/current-weather/current-weather";
 import Forecast from "./components/forecast/forecast";
 import { WEATHER_API_URL, WEATHER_API_KEY } from "./api";
 import "./App.css";
+import { MdOutlineLocationOn } from "react-icons/md";
 
 function App() {
   const [currentWeather, setCurrentWeather] = useState(null);
@@ -30,13 +31,26 @@ function App() {
       .catch(console.log);
   };
 
+  const handleLocation = () => {
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        handleOnSearchChange({value:`${position.coords.latitude} ${position.coords.longitude}`});
+      })
+    }
+    else {
+      alert('Geolocation is not supported by your browser');
+    }
+  }
+
   return (
     <div className="container">
       <Search onSearchChange={handleOnSearchChange} />
+      <div className="location">
+        <button style={{backgroundColor:'black', borderRadius:'5px'}} onClick={handleLocation}><MdOutlineLocationOn size={30} color="white" /></button>
+      </div>
       {currentWeather && <CurrentWeather data={currentWeather} />}
       {forecast && <Forecast data={forecast} />}
     </div>
   );
 }
-
 export default App;
